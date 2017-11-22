@@ -1,0 +1,117 @@
+% This code implemented the article "Multifocus image fusion using region segmentation and spatial frequency"
+% http://www.sciencedirect.com/science/article/pii/S0262885607002065
+
+% Diogo Rodrigues da Silva
+% Informatic Center
+% Federal University of Pernambuco
+% http://www2.cin.ufpe.br/site/index.php
+% 2017
+%% clear command windows
+clc
+clear all
+close all
+%% read image and resize to 0.25 percente of the original image
+disp('Opening imagens...');
+I       = imread('imgs/toy1.jpg');
+[x,y,c] = size(I);
+if c > 1
+  I = rgb2gray(I); 
+end
+I1      = imresize(I,0.5);
+I     = imread('imgs/toy2.jpg');
+[x,y,c] = size(I);
+if c > 1
+  I = rgb2gray(I); 
+end
+I2      = imresize(I,0.5);
+I     = imread('imgs/toy3.jpg');
+[x,y,c] = size(I);
+if c > 1
+  I = rgb2gray(I); 
+end
+I4      = imresize(I,0.5);
+
+
+%% parameters
+disp('Setting parameters...');
+% ncut parameters
+SI   = 5;          
+SX   = 6;             
+r    = 2;        
+sNcut = 0.06;      
+sArea = 80;       
+
+%% Step 1- Average of two registred source images
+disp('Step 1: Calculating average of two registred source images...');
+% I3 = (I1/2)+(I2/2);
+I3 = (I1/2)+(I2/2)+(I4/2);
+%% Step 2 - Segmentation using normalized cuts algorithm
+disp('Step 2: Segmenting image using normalized cuts algorithm...');
+[SegI, Nnc]   = Nc(I3,SI,SX,r,sNcut,sArea);
+
+%% Step 3 - Partition image A and B using the result of step 2
+disp('Step 3: Partition image A and B using the result of step 2...');
+SegI1    = cell(length(SegI),1);
+SegI2    = cell(length(SegI),1);
+SegI3    = cell(length(SegI),1);
+
+for k=1:length(SegI)
+    mask = imbinarize(SegI{k},0);
+    SegI1{k} = (I1 .* uint8(mask));
+    SegI2{k} = (I2 .* uint8(mask));
+    SegI3{k} = (I4 .* uint8(mask));
+end
+
+%% Step 4 - Compute spatial frequency of each region
+disp('Step 4: Compute spatial frequency of each region...');
+SF1         = cell(2,1);
+SF2         = cell(2,1);
+SF3         = cell(2,1);
+ 
+for i=1:length(SegI)
+SF1{i} = SpatialFrequency(SegI1{i});
+SF2{i} = SpatialFrequency(SegI2{i});
+SF3{i} = SpatialFrequency(SegI3{i});
+end
+
+%% Step 5 - Compare the spatial frequency of the corresponding regions
+disp('Step 5: Compare the spatial frequency of the corresponding regions');
+SegFinal        = cell(2,1);
+
+% for i=1:length(SegI)
+%     if SF1{i} >= SF2{i}
+%         SegFinal{i} = SegI1{i};
+%     else
+%         SegFinal{i} = SegI2{i};
+% 
+%     end
+% end
+for i=1:length(SegI)
+    if SF1{i} >= SF2{i} && SF1{i} >= SF3{i}
+        SegFinal{i} = SegI1{i};
+    elseif SF2{i} >= SF1{i} && SF2{i} >= SF3{i}
+        SegFinal{i} = SegI2{i};
+    else
+        SegFinal{i} = SegI3{i};
+    end
+end
+
+%% Step 6 - Merge all the selected regions to reconstruct the final image
+disp('Step 6: Merge all the selected regions to reconstruct the final image');
+finalImg = zeros(size(I3),'uint8');
+for i=1:length(SegI)
+    finalImg = finalImg + uint8(SegFinal{i});
+end
+
+%% Step 7 - Performance Analysis Q^AB/F metric and MI
+% QABF = Qabf(I1,I2,finalImg);
+% MI = mi(I1,finalImg) + mi(I2,finalImg);
+QABF = (Qabf(I1,I2,finalImg) + Qabf(I1,I3,finalImg) + Qabf(I2,I3,finalImg))/3;
+MI = mi(I1,finalImg) + mi(I2,finalImg) + mi(I3,finalImg);
+
+%% Show results
+fprintf('Qabf = %f\n',QABF);
+fprintf('MI= %f\n',MI);
+figure();
+imshow(finalImg);
+imwrite(uint8(finalImg),'imgs/final.jpg')
