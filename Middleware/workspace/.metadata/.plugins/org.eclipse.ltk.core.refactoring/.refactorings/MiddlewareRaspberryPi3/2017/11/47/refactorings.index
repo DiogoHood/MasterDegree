@@ -1,0 +1,5 @@
+1511370020082	Encapsulate field 'senderIP'
+1511370024859	Encapsulate field 'senderPort'
+1511370030422	Encapsulate field 'topic'
+1511370262729	Delete element
+1511374795866	Encapsulate field 'portListener'

@@ -16,6 +16,7 @@ public class NodeHandle implements INodeHandler {
 	
 	private String host;
 	private int port;
+	private int portListener;
 	
 	public NodeHandle(String host, int port){
 		this.host = host;
@@ -23,7 +24,7 @@ public class NodeHandle implements INodeHandler {
 	}
 	
 	@Override
-	public void advertise(String topic, String sourceIP) throws Throwable {
+	public void advertise(String topic) throws Throwable {
 		
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
@@ -48,7 +49,7 @@ public class NodeHandle implements INodeHandler {
 	}
 
 	@Override
-	public void publish(String topic, String message, String sourceIP)
+	public void publish(String topic, String message)
 			throws Throwable {
 		
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
@@ -74,7 +75,7 @@ public class NodeHandle implements INodeHandler {
 	}
 
 	@Override
-	public void subscribe(String topic, String host, int portListener) throws Throwable {
+	public void subscribe(String topic) throws Throwable {
 		
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
@@ -86,7 +87,7 @@ public class NodeHandle implements INodeHandler {
 		msgToBeMarshalled.getHeader().setMethod(methodName);
 		msgToBeMarshalled.getHeader().setTopic(topic);
 		msgToBeMarshalled.getHeader().setSenderIP(this.getIPAddress());
-		msgToBeMarshalled.getHeader().setSenderPort(portListener);
+		msgToBeMarshalled.getHeader().setSenderPort(this.getPortListener());
 		
 		try {
 			msgMarshalled = marshaller.marshall(msgToBeMarshalled);
@@ -99,7 +100,7 @@ public class NodeHandle implements INodeHandler {
 	}
 
 	@Override
-	public void unsubscribe(String topic, String sourceIP) throws Throwable {
+	public void unsubscribe(String topic) throws Throwable {
 		
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
@@ -120,34 +121,6 @@ public class NodeHandle implements INodeHandler {
 		}
 		
 		crh.send(msgMarshalled);
-		
-	}
-
-	@Override
-	public String list(String sourceIP) throws Throwable {
-		
-		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
-		Marshaller marshaller = new Marshaller();
-		byte[] msgMarshalled = null;		
-		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null), new MessageBody(null));
-		
-		// information received from Client
-		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
-		msgToBeMarshalled.getHeader().setMethod(methodName);
-		msgToBeMarshalled.getHeader().setSenderIP(this.getIPAddress());
-		
-		try {
-			msgMarshalled = marshaller.marshall(msgToBeMarshalled);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		crh.send(msgMarshalled);
-		byte[] msgs = crh.receive();
-		Message topics = marshaller.unmarshall(msgs);
-		
-		return topics.getBody().getMessage();
 		
 	}
 	
@@ -183,5 +156,13 @@ public class NodeHandle implements INodeHandler {
 	
 	public int getPort(){
 		return this.port;
+	}
+
+	public int getPortListener() {
+		return portListener;
+	}
+
+	public void setPortListener(int portListener) {
+		this.portListener = portListener;
 	}
 }

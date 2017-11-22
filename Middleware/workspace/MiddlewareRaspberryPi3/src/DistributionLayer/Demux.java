@@ -13,7 +13,7 @@ public class Demux implements Runnable{
 		switch(message.getHeader().getMethod()){
 		case "advertise":				
 			try {
-				nodeHandle.advertise(message.getHeader().getTopic(), message.getHeader().getSenderIP());
+				nodeHandle.advertise(message.getHeader().getTopic());
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -22,7 +22,7 @@ public class Demux implements Runnable{
 		
 		case "publish":				
 			try {
-				nodeHandle.publish(message.getHeader().getTopic(), message.getBody().getMessage(), message.getHeader().getSenderIP());
+				nodeHandle.publish(message.getHeader().getTopic(), message.getBody().getMessage());
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -31,7 +31,9 @@ public class Demux implements Runnable{
 			
 		case "subscribe":
 			try {
-				nodeHandle.subscribe(message.getHeader().getTopic(), message.getHeader().getSenderIP(), message.getHeader().getSenderPort());
+				nodeHandle.setSenderIP(message.getHeader().getSenderIP());
+				nodeHandle.setSenderPort(message.getHeader().getSenderPort());				
+				nodeHandle.subscribe(message.getHeader().getTopic());
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,16 +42,9 @@ public class Demux implements Runnable{
 			
 		case "unsubscribe":
 			try {
-				nodeHandle.unsubscribe(message.getHeader().getTopic(), message.getHeader().getSenderIP());
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			break;
-			
-		case "list":
-			try {
-//				srh.send(mrsh.marshall(topics));
+				nodeHandle.setSenderIP(message.getHeader().getSenderIP());
+				nodeHandle.setSenderPort(message.getHeader().getSenderPort());	
+				nodeHandle.unsubscribe(message.getHeader().getTopic());
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

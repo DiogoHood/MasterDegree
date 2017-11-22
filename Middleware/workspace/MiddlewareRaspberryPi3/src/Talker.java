@@ -10,15 +10,15 @@ public class Talker {
 	public static void main(String[] args) throws Throwable {
 		
 		Publisher publisher = (Publisher) NodeHandlerFactory.getNodeHandler("talker", host, portNodeMaster);
-		publisher.advertise("measures/temperature", null);
-		publisher.advertise("measures/pressure", null);
-		publisher.advertise("measures/speed", null);
-		publisher.advertise("measures/levelBattery", null);
+		publisher.advertise("measures/temperature");
+		publisher.advertise("measures/pressure");
+		publisher.advertise("measures/speed");
+		publisher.advertise("measures/levelBattery");
 		
 		for(int i = 0; i < 10; i++){
-			publisher.publish("measures/temperature",Integer.toString(i), null);
+			publisher.publish("measures/temperature",Integer.toString(i));
 			for(int j = 10; j > 0; j--){
-				publisher.publish("measures/levelBattery",Integer.toString(j), null);
+				publisher.publish("measures/levelBattery",Integer.toString(j));
 				Thread.sleep(1000);
 			}
 			Thread.sleep(1000);

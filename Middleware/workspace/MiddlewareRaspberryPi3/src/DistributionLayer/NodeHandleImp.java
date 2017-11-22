@@ -1,40 +1,44 @@
 package DistributionLayer;
 
-import java.util.ArrayList;
-
 public class NodeHandleImp implements INodeHandler{
+	
+	private String senderIP;
+	private int senderPort;
 
 	@Override
-	public void advertise(String topic, String sourceIP) throws Throwable {
+	public void advertise(String topic) throws Throwable {
 		QueueManager.create(topic);
 	}
 
 	@Override
-	public void publish(String topic, String message, String sourceIP)
+	public void publish(String topic, String message)
 			throws Throwable {
 		QueueManager.insert(topic, message);
-		
 	}
 
 	@Override
-	public void subscribe(String topic, String sourceIP, int port) throws Throwable {
-		SubscribersManager.include(topic, sourceIP, port);
-		
+	public void subscribe(String topic) throws Throwable {
+		SubscribersManager.include(topic, this.getSenderIP(), this.getSenderPort());
 	}
 
 	@Override
-	public void unsubscribe(String topic, String sourceIP) throws Throwable {
-		SubscribersManager.remove(topic, sourceIP);
-		
+	public void unsubscribe(String topic) throws Throwable {
+		SubscribersManager.remove(topic, this.getSenderIP());
 	}
 
-	@Override
-	public String list(String sourceIP) throws Throwable {
-		ArrayList<String> topicsList = QueueManager.listTopics();
-		String topics = "Topics: ";
-		for(int i = 0; i < topicsList.size(); i++){
-			topics = topics + topicsList.get(i) + (";");
-		}
-		return topics;		
+	public String getSenderIP() {
+		return senderIP;
+	}
+
+	public void setSenderIP(String senderIP) {
+		this.senderIP = senderIP;
+	}
+
+	public int getSenderPort() {
+		return senderPort;
+	}
+
+	public void setSenderPort(int senderPort) {
+		this.senderPort = senderPort;
 	}
 }

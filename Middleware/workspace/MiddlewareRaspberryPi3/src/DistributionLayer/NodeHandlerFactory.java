@@ -7,7 +7,9 @@ public class NodeHandlerFactory {
 		if(type.equals("talker")){
 			return new Publisher(host,portNodeMaster);
 		}else if(type.equals("listener")){
-			return new Subscriber(host, portNodeMaster);
+			Subscriber subscriber = new Subscriber(host, portNodeMaster);
+			subscriber.setPortListener(11111);
+			return subscriber;
 		}
 
 		return null;

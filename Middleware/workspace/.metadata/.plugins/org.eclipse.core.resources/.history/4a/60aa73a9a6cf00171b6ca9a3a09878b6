@@ -1,0 +1,33 @@
+package DistributionLayer;
+
+public class NodeHandleImp implements INodeHandler{
+	
+	private String host;
+	private int port;
+	
+	public NodeHandleImp(String host, int port){
+		this.host = host;
+		this.port = port;
+	}
+
+	@Override
+	public void advertise(String topic) throws Throwable {
+		QueueManager.create(topic);
+	}
+
+	@Override
+	public void publish(String topic, String message)
+			throws Throwable {
+		QueueManager.insert(topic, message);
+	}
+
+	@Override
+	public void subscribe(String topic, String sourceIP, int port) throws Throwable {
+		SubscribersManager.include(topic, sourceIP, port);
+	}
+
+	@Override
+	public void unsubscribe(String topic, String sourceIP) throws Throwable {
+		SubscribersManager.remove(topic, sourceIP);
+	}
+}

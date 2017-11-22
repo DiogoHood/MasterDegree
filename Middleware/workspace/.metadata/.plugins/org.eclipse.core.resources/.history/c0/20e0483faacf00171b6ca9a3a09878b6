@@ -1,0 +1,39 @@
+package DistributionLayer;
+import java.io.IOException;
+
+import BasicRemotingPatterns.IRequestHandler;
+import BasicRemotingPatterns.Marshaller;
+import BasicRemotingPatterns.RequestHandlerFactory;
+import Message.Message;
+
+public class Subscriber extends NodeHandle{
+	
+	private int portListener;
+	
+	public Subscriber(String host, int portNodeMaster) {
+		super(host, portNodeMaster);
+		this.portListener = 11112;
+	}
+
+	public void receive(CallBack callBack) throws IOException, InterruptedException, ClassNotFoundException{
+		
+		IRequestHandler srh = RequestHandlerFactory.getRequestHandler(this.getPortListener());
+		Marshaller marshaller = new Marshaller();
+		byte[] msgToBeUnmarshalled = null;
+		Message msgUnmarshalled = null;
+		
+		while(true){
+			msgToBeUnmarshalled = srh.receive();
+			msgUnmarshalled = marshaller.unmarshall(msgToBeUnmarshalled);
+			callBack.methodToCallBack(msgUnmarshalled.getBody().getMessage(), msgUnmarshalled.getHeader().getTopic());
+		}
+	}
+
+	public int getPortListener() {
+		return portListener;
+	}
+
+	public void setPortListener(int portListener) {
+		this.portListener = portListener;
+	}
+}
