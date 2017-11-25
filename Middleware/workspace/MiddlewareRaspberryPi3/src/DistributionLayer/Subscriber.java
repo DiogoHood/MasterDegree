@@ -12,7 +12,6 @@ public class Subscriber extends NodeHandle{
 	
 	public Subscriber(String host, int portNodeMaster) {
 		super(host, portNodeMaster);
-		this.portListener = 11111;
 	}
 
 	public void receive(CallBack callBack) throws IOException, InterruptedException, ClassNotFoundException{
@@ -22,10 +21,17 @@ public class Subscriber extends NodeHandle{
 		byte[] msgToBeUnmarshalled = null;
 		Message msgUnmarshalled = null;
 		
+		int sampleSize = 1000;
+		int index = 0;
+		
 		while(true){
 			msgToBeUnmarshalled = srh.receive();
 			msgUnmarshalled = marshaller.unmarshall(msgToBeUnmarshalled);
-			callBack.methodToCallBack(msgUnmarshalled.getBody().getMessage(), msgUnmarshalled.getHeader().getTopic());
+			callBack.methodToCallBack(msgUnmarshalled.getBody().getMessage(), msgUnmarshalled.getHeader().getTopic(),System.nanoTime()-msgUnmarshalled.getHeader().getTime());
+			index = index + 1;
+			if(index >= sampleSize){
+				break;
+			}
 		}
 	}
 

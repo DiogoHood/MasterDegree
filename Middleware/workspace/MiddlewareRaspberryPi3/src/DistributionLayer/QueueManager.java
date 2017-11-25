@@ -7,36 +7,41 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import Message.Message;
+import Message.MessageBody;
+import Message.MessageHeader;
+
 public class QueueManager {
 	
-	private static Map <String,Queue<String>> messageQueue = new ConcurrentHashMap<>();
+	private static Map <String,Queue<Message>> messageQueue = new ConcurrentHashMap<>();
 	
 	public static void create(String topic){
 		
 		if(messageQueue.get(topic) == null){
-			Queue<String> queue = new ConcurrentLinkedQueue<>();
+			Queue<Message> queue = new ConcurrentLinkedQueue<>();
 			messageQueue.put(topic,queue);
-			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " was created.");
+//			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " was created.");
 		}else{
-			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " already exist.");
+//			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " already exist.");
 		}
 	}	
 	
-	public static void insert(String topic, String message){
+	public static void insert(String topic, String message, long time){
 		
-		if(messageQueue.get(topic) != null){
-			Queue<String> queue = messageQueue.get(topic);
-			queue.add(message);
+		if(messageQueue.get(topic) != null){ 
+			Message msg = new Message(new MessageHeader(null,0,null,topic,time), new MessageBody(message));
+			Queue<Message> queue = messageQueue.get(topic);
+			queue.add(msg);
 			messageQueue.put(topic,queue);
-			System.out.println("QueueManager@insert@New message arrived on the topic " + "'" + topic + "'");			
+//			System.out.println("QueueManager@insert@New message arrived on the topic " + "'" + topic + "'");			
 		}
 	}
 	
-	public static String remove(String topic){
+	public static Message remove(String topic){
 		
 		if(messageQueue.get(topic) != null){
 			
-			Queue<String> queue = messageQueue.get(topic);
+			Queue<Message> queue = messageQueue.get(topic);
 			if(!queue.isEmpty()){
 				return queue.remove();
 			}
@@ -55,7 +60,7 @@ public class QueueManager {
 		
 		ArrayList<String> list = new ArrayList<>();
 
-		for (Entry<String, Queue<String>> entry : messageQueue.entrySet()) {
+		for (Entry<String, Queue<Message>> entry : messageQueue.entrySet()) {
 			list.add(entry.getKey());
 		}
 		

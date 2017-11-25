@@ -3,4 +3,9 @@
 <fullyQualifiedTypeName name="java.lang.Override"/>
 <fullyQualifiedTypeName name="DistributionLayer.NodeHandle"/>
 <fullyQualifiedTypeName name="DistributionLayer.Subscriber"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="Message.Message"/>
+<fullyQualifiedTypeName name="Message.MessageHeader"/>
+<fullyQualifiedTypeName name="Message.MessageBody"/>
+<fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
 </qualifiedTypeNameHistroy>

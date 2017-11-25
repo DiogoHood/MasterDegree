@@ -1,0 +1,55 @@
+package DistributionLayer;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import BasicRemotingPatterns.IRequestHandler;
+import BasicRemotingPatterns.Marshaller;
+import BasicRemotingPatterns.RequestHandlerFactory;
+import Message.Message;
+import Message.MessageBody;
+import Message.MessageHeader;
+
+public class Notifier implements Runnable{
+
+	@Override
+	public void run() {
+		
+		ArrayList<String> topicsList = null;
+		ArrayList<SubscriberAddress> subscribers = null;
+		Message message = new Message(new MessageHeader(null, 0, null, null, 0),);
+		IRequestHandler crh;
+		Marshaller mrsh = new Marshaller();
+		
+		while(true){
+			
+			topicsList = QueueManager.listTopics();
+			for(int i = 0; i < topicsList.size(); i++){
+				
+				for(int j = 0; j < QueueManager.getSizeQueue(topicsList.get(i));j++){
+					
+					message = QueueManager.remove(topicsList.get(i));
+					subscribers = SubscribersManager.getSubscribers(topicsList.get(i));
+					
+					if(subscribers != null){
+
+						for(int k = 0; k < subscribers.size() ; k++){
+							
+							try {
+								crh = RequestHandlerFactory.getRequestHandler(subscribers.get(k).getHost(),subscribers.get(k).getPort());
+								Message msgToBemarshalled = new Message(new MessageHeader(null,0,null,topicsList.get(i)), new MessageBody(message));
+								mrsh.marshall(msgToBemarshalled);
+								crh.send(mrsh.marshall(msgToBemarshalled));
+								System.out.println("Notifier@run@ Sending message from topic " + topicsList.get(i) + " to subscriber " + "'" + subscribers.get(j).getHost()+":"+subscribers.get(j).getPort()+ "'");
+							} catch (IOException e) {
+								System.out.println("Erro@Notifier@run: " + e.getMessage());
+							} catch (InterruptedException e) {
+								System.out.println("Erro@Notifier@run: " + e.getMessage());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

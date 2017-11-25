@@ -9,8 +9,9 @@ public class RequestHandlerFactory {
 	public static IRequestHandler getRequestHandler(String host, int portNumber) throws IOException{
 		
 //		System.out.println("@RequestHandlerFactory@getRequestHandler@ Checking the type of communication...");
-		Properties prop = getProp();
-		String comunicationType = prop.getProperty("prop.comunication.type");
+//		Properties prop = getProp();
+//		String comunicationType = prop.getProperty("prop.comunication.type");
+		String comunicationType = "TCP";
 //		System.out.println(comunicationType);
 		
 		if(comunicationType.equals("TCP")){
@@ -28,8 +29,9 @@ public class RequestHandlerFactory {
 	public static IRequestHandler getRequestHandler(int portNumber) throws IOException{
 		
 //		System.out.println("@RequestHandlerFactory@getRequestHandler@ Checking the type of communication...");
-		Properties prop = getProp();
-		String comunicationType = prop.getProperty("prop.comunication.type");
+//		Properties prop = getProp();
+//		String comunicationType = prop.getProperty("prop.comunication.type");
+		String comunicationType = "TCP";
 //		System.out.println(comunicationType);
 		
 		if(comunicationType.equals("TCP")){

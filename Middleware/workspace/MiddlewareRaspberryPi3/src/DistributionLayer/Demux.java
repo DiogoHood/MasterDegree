@@ -15,17 +15,16 @@ public class Demux implements Runnable{
 			try {
 				nodeHandle.advertise(message.getHeader().getTopic());
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Erro@EventService@Start@advertise " + e.getMessage() );
 			}
 			break;
 		
 		case "publish":				
 			try {
+				nodeHandle.setTime(message.getHeader().getTime());
 				nodeHandle.publish(message.getHeader().getTopic(), message.getBody().getMessage());
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Erro@EventService@Start@publish " + e.getMessage() );
 			}
 			break;
 			
@@ -35,8 +34,7 @@ public class Demux implements Runnable{
 				nodeHandle.setSenderPort(message.getHeader().getSenderPort());				
 				nodeHandle.subscribe(message.getHeader().getTopic());
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Erro@EventService@Start@subscribe " + e.getMessage() );
 			}
 			break;
 			
@@ -46,8 +44,7 @@ public class Demux implements Runnable{
 				nodeHandle.setSenderPort(message.getHeader().getSenderPort());	
 				nodeHandle.unsubscribe(message.getHeader().getTopic());
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Erro@EventService@Start@unsubscribe " + e.getMessage() );
 			}
 			break;
 			

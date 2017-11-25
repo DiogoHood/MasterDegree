@@ -7,8 +7,6 @@ import BasicRemotingPatterns.IRequestHandler;
 import BasicRemotingPatterns.Marshaller;
 import BasicRemotingPatterns.RequestHandlerFactory;
 import Message.Message;
-import Message.MessageBody;
-import Message.MessageHeader;
 
 public class Notifier implements Runnable{
 
@@ -17,7 +15,7 @@ public class Notifier implements Runnable{
 		
 		ArrayList<String> topicsList = null;
 		ArrayList<SubscriberAddress> subscribers = null;
-		String message = null;
+		Message message = null;
 		IRequestHandler crh;
 		Marshaller mrsh = new Marshaller();
 		
@@ -37,10 +35,10 @@ public class Notifier implements Runnable{
 							
 							try {
 								crh = RequestHandlerFactory.getRequestHandler(subscribers.get(k).getHost(),subscribers.get(k).getPort());
-								Message msgToBemarshalled = new Message(new MessageHeader(null,0,null,topicsList.get(i)), new MessageBody(message));
+								Message msgToBemarshalled = message;
 								mrsh.marshall(msgToBemarshalled);
 								crh.send(mrsh.marshall(msgToBemarshalled));
-								System.out.println("Notifier@run@ Sending message from topic " + topicsList.get(i) + " to subscriber " + "'" + subscribers.get(j).getHost()+":"+subscribers.get(j).getPort()+ "'");
+//								System.out.println("Notifier@run@ Sending message from topic " + topicsList.get(i) + " to subscriber " + "'" + subscribers.get(j).getHost()+":"+subscribers.get(j).getPort()+ "'");
 							} catch (IOException e) {
 								System.out.println("Erro@Notifier@run: " + e.getMessage());
 							} catch (InterruptedException e) {

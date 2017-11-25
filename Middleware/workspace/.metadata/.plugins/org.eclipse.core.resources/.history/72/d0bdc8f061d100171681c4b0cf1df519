@@ -1,0 +1,23 @@
+import DistributionLayer.CallBack;
+import DistributionLayer.NodeHandlerFactory;
+import DistributionLayer.Subscriber;
+
+public class Listener {
+
+//	private static String host = "192.168.1.6";
+//	private static int portNodeMaster = 5555;
+	
+	public static void main(String[] args) throws Throwable {
+		
+		System.out.println(args[0]);
+		System.out.println(args[1]);
+		
+//		Subscriber subscriber = (Subscriber) NodeHandlerFactory.getNodeHandler("listener", args[0], Integer.parseInt(args[1]));
+//
+//		subscriber.subscribe("measures/levelBattery");
+//		subscriber.subscribe("measures/temperature");
+//		
+//		CallBack callBack = new CallBackImpl();
+//		subscriber.receive(callBack);		
+	}
+}

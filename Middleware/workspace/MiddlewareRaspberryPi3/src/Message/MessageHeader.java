@@ -10,12 +10,14 @@ public class MessageHeader implements Serializable{
 	private int senderPort;
 	private String method;
 	private String topic;
+	private long time;
 	
-	public MessageHeader(String senderIP, int senderPort, String method, String topic){
+	public MessageHeader(String senderIP, int senderPort, String method, String topic, long time){
 		this.senderIP = senderIP;
 		this.senderPort = senderPort;
 		this.method = method;
 		this.topic = topic;
+		this.time = time;
 	}
 	
 	public String getSenderIP() {
@@ -41,5 +43,13 @@ public class MessageHeader implements Serializable{
 	}
 	public void setTopic(String topic) {
 		this.topic = topic;
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
 	}
 }

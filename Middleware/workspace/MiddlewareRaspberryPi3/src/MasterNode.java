@@ -2,11 +2,9 @@ import DistributionLayer.EventService;
 
 public class MasterNode {
 
-	private static int port = 5555;
-	
 	public static void main(String[] args) throws Throwable {
 		
-		EventService eventService = new EventService(port);
+		EventService eventService = new EventService(Integer.parseInt(args[0]));
 		eventService.start();
 	}
 }

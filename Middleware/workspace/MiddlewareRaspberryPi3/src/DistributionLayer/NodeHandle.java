@@ -29,7 +29,7 @@ public class NodeHandle implements INodeHandler {
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
 		byte[] msgMarshalled = null;		
-		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null), new MessageBody(null));
+		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null,0), new MessageBody(null));
 		
 		// information received from Client
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -55,14 +55,15 @@ public class NodeHandle implements INodeHandler {
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
 		byte[] msgMarshalled = null;		
-		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null), new MessageBody(null));
+		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null, 0), new MessageBody(null));
 		
 		// information received from Client
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		msgToBeMarshalled.getHeader().setMethod(methodName);
 		msgToBeMarshalled.getHeader().setTopic(topic);
-		msgToBeMarshalled.getBody().setMessage(message);
 		msgToBeMarshalled.getHeader().setSenderIP(this.getIPAddress());
+		msgToBeMarshalled.getHeader().setTime(System.nanoTime());
+		msgToBeMarshalled.getBody().setMessage(message);
 		
 		try {
 			msgMarshalled = marshaller.marshall(msgToBeMarshalled);
@@ -80,7 +81,7 @@ public class NodeHandle implements INodeHandler {
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
 		byte[] msgMarshalled = null;		
-		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null), new MessageBody(null));
+		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null, 0), new MessageBody(null));
 		
 		// information received from Client
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -105,7 +106,7 @@ public class NodeHandle implements INodeHandler {
 		IRequestHandler crh = RequestHandlerFactory.getRequestHandler(this.getHost(),this.getPort());
 		Marshaller marshaller = new Marshaller();
 		byte[] msgMarshalled = null;		
-		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null), new MessageBody(null));
+		Message msgToBeMarshalled = new Message(new MessageHeader(null, 0, null, null, 0), new MessageBody(null));
 		
 		// information received from Client
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();

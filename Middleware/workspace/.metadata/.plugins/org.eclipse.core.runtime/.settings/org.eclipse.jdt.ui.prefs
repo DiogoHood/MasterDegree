@@ -1,4 +1,5 @@
-content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="DistributionLayer.NodeHandle"><rhs name\="DistributionLayer.Subscriber"/></lhs><lhs name\="DistributionLayer.INodeHandler"><rhs name\="DistributionLayer.Subscriber"/></lhs><lhs name\="DistributionLayer.Subscriber"><rhs name\="DistributionLayer.Subscriber"/></lhs></history>
+command=/usr/lib/jvm/java-8-openjdk-amd64/bin/javadoc
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="DistributionLayer.NodeHandle"><rhs name\="DistributionLayer.Subscriber"/></lhs><lhs name\="DistributionLayer.INodeHandler"><rhs name\="DistributionLayer.Subscriber"/></lhs><lhs name\="DistributionLayer.Subscriber"><rhs name\="DistributionLayer.Subscriber"/></lhs><lhs name\="Message.Message"><rhs name\="Message.Message"/></lhs><lhs name\="Message.MessageHeader"><rhs name\="Message.MessageHeader"/></lhs><lhs name\="Message.MessageBody"><rhs name\="Message.MessageBody"/></lhs></history>
 content_assist_number_of_computers=13
 content_assist_proposals_background=255,255,255
 content_assist_proposals_foreground=60,60,60

@@ -4,6 +4,7 @@ public class NodeHandleImp implements INodeHandler{
 	
 	private String senderIP;
 	private int senderPort;
+	private long time;
 
 	@Override
 	public void advertise(String topic) throws Throwable {
@@ -13,7 +14,7 @@ public class NodeHandleImp implements INodeHandler{
 	@Override
 	public void publish(String topic, String message)
 			throws Throwable {
-		QueueManager.insert(topic, message);
+		QueueManager.insert(topic, message, this.time);
 	}
 
 	@Override
@@ -40,5 +41,14 @@ public class NodeHandleImp implements INodeHandler{
 
 	public void setSenderPort(int senderPort) {
 		this.senderPort = senderPort;
+	}
+	
+	
+	public long getTime(){
+		return this.time;
+	}
+	
+	public void setTime(long time){
+		this.time = time;
 	}
 }
