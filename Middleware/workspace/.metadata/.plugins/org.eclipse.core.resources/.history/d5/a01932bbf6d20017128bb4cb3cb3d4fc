@@ -1,0 +1,51 @@
+package DistributionLayer;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class SubscribersManager {
+	
+	private static Map <String,ArrayList<SubscriberAddress>> subscribersList = new ConcurrentHashMap<>();
+	
+	public static ArrayList<SubscriberAddress> getSubscribers(String topic){
+		return subscribersList.get(topic);
+	}
+	
+	public static void include(String topic, String sourceIP, int sourcePort){
+		
+		if(subscribersList.get(topic) == null){
+			ArrayList<SubscriberAddress> subscribers = new ArrayList<>();
+			SubscriberAddress subscriberAddress = new SubscriberAddress();
+			
+			subscriberAddress.setHost(sourceIP);
+			subscriberAddress.setPort(sourcePort);
+			
+			subscribers.add(subscriberAddress);
+			subscribersList.put(topic, subscribers);			
+		}else{
+			ArrayList<SubscriberAddress> subscribers = subscribersList.get(topic);
+			SubscriberAddress subscriberAddress = new SubscriberAddress();
+			
+			subscriberAddress.setHost(sourceIP);
+			subscriberAddress.setPort(sourcePort);
+			
+			subscribers.add(subscriberAddress);
+			subscribersList.put(topic, subscribers);
+		}
+		
+		System.out.println("SubscribersManager@setSubscribers@ Node " + "'" + sourceIP + "'" + " was subscribed to the topic " + topic);
+	}
+	
+	public static void remove(String topic, String sourceIP){
+		
+		if(subscribersList.get(topic) != null){
+			ArrayList<SubscriberAddress> subscribers = subscribersList.get(topic);
+			subscribers.remove(sourceIP);
+			subscribersList.put(topic, subscribers);
+		}
+		
+//		System.out.println("SubscribersManager@setSubscribers@ Node " + "'" + sourceIP + "'" + " was unsubscribed from the topic " + topic);
+	}
+
+}

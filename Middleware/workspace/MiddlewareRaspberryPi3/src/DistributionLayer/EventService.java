@@ -15,7 +15,7 @@ public class EventService {
 	
 	public void start() throws Throwable{
 		
-//		System.out.println("EventService@start@ Starting the Event Service...");
+		System.out.println("EventService@start@ Starting the Event Service...");
 		IRequestHandler srh = RequestHandlerFactory.getRequestHandler(port);
 		
 		Marshaller mrsh = new Marshaller();
@@ -28,7 +28,7 @@ public class EventService {
 		threadNotifier.start();
 		
 		while(true){
-//			System.out.println("EventService@start@ Waiting for new message...");
+			System.out.println("EventService@start@ Waiting for new message...");
 			// @ Receive Message
 			msgToBeUnmarshalled = srh.receive();
 			

@@ -38,7 +38,7 @@ public class Notifier implements Runnable{
 								Message msgToBemarshalled = message;
 								mrsh.marshall(msgToBemarshalled);
 								crh.send(mrsh.marshall(msgToBemarshalled));
-//								System.out.println("Notifier@run@ Sending message from topic " + topicsList.get(i) + " to subscriber " + "'" + subscribers.get(j).getHost()+":"+subscribers.get(j).getPort()+ "'");
+								System.out.println("Notifier@run@ Sending message from topic " + topicsList.get(i) + " to subscriber " + "'" + subscribers.get(j).getHost()+":"+subscribers.get(j).getPort()+ "'");
 							} catch (IOException e) {
 								System.out.println("Erro@Notifier@run: " + e.getMessage());
 							} catch (InterruptedException e) {

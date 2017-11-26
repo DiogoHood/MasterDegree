@@ -34,7 +34,7 @@ public class SubscribersManager {
 			subscribersList.put(topic, subscribers);
 		}
 		
-//		System.out.println("SubscribersManager@setSubscribers@ Node " + "'" + sourceIP + "'" + " was subscribed to the topic " + topic);
+		System.out.println("SubscribersManager@setSubscribers@ Node " + "'" + sourceIP + "'" + " was subscribed to the topic " + topic);
 	}
 	
 	public static void remove(String topic, String sourceIP){
@@ -45,7 +45,7 @@ public class SubscribersManager {
 			subscribersList.put(topic, subscribers);
 		}
 		
-//		System.out.println("SubscribersManager@setSubscribers@ Node " + "'" + sourceIP + "'" + " was unsubscribed from the topic " + topic);
+		System.out.println("SubscribersManager@setSubscribers@ Node " + "'" + sourceIP + "'" + " was unsubscribed from the topic " + topic);
 	}
 
 }

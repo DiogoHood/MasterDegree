@@ -9,9 +9,9 @@ public class Talker {
 		
 		publisher.advertise("measures/temperature");
 		
-		for(int i = 0; i < 1000; i++){
+		for(int i = 0; i < 500; i++){
 			publisher.publish("measures/temperature",Integer.toString(i));
-			Thread.sleep(10);
+			Thread.sleep(100);
 		}	
 	}
 }

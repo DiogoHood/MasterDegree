@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="NewWizardAction">
+		<item value="com.objectaid.uml.new.classdiagram" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="com.objectaid.uml.new"/>
+		</list>
 	</section>
 	<section name="ImportExportAction">
 		<item value="org.eclipse.jdt.internal.ui.fatjarpackager.JarPackageWizard" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>

@@ -20,9 +20,9 @@ public class QueueManager {
 		if(messageQueue.get(topic) == null){
 			Queue<Message> queue = new ConcurrentLinkedQueue<>();
 			messageQueue.put(topic,queue);
-//			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " was created.");
+			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " was created.");
 		}else{
-//			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " already exist.");
+			System.out.println("QueueManager@create@ Queue of the topic " + "'" + topic + "'" + " already exist.");
 		}
 	}	
 	
@@ -33,7 +33,7 @@ public class QueueManager {
 			Queue<Message> queue = messageQueue.get(topic);
 			queue.add(msg);
 			messageQueue.put(topic,queue);
-//			System.out.println("QueueManager@insert@New message arrived on the topic " + "'" + topic + "'");			
+			System.out.println("QueueManager@insert@New message arrived on the topic " + "'" + topic + "'");			
 		}
 	}
 	
@@ -46,12 +46,12 @@ public class QueueManager {
 				return queue.remove();
 			}
 			else{
-//				System.out.println("QueueManager@remove@ There isn't message in the topic " + "'" + topic + "'");
+				System.out.println("QueueManager@remove@ There isn't message in the topic " + "'" + topic + "'");
 				return null;
 			}
 		}
 		else{
-//			System.out.println("QueueManager@remove@ Topic invalid!");
+			System.out.println("QueueManager@remove@ Topic invalid!");
 			return null;
 		}
 	}

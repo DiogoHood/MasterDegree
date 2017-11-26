@@ -1,5 +1,6 @@
 package DistributionLayer;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import BasicRemotingPatterns.IRequestHandler;
 import BasicRemotingPatterns.Marshaller;
@@ -21,19 +22,58 @@ public class Subscriber extends NodeHandle{
 		byte[] msgToBeUnmarshalled = null;
 		Message msgUnmarshalled = null;
 		
-		int sampleSize = 1000;
+		int sampleSize = 500;
+		long [] latency = new long[sampleSize];
 		int index = 0;
+		
+		for(int i = 0; i < sampleSize; i++){
+			latency[i] = 0;
+		}
 		
 		while(true){
 			msgToBeUnmarshalled = srh.receive();
 			msgUnmarshalled = marshaller.unmarshall(msgToBeUnmarshalled);
-			callBack.methodToCallBack(msgUnmarshalled.getBody().getMessage(), msgUnmarshalled.getHeader().getTopic(),System.nanoTime()-msgUnmarshalled.getHeader().getTime());
-			index = index + 1;
-			if(index >= sampleSize){
-				break;
-			}
+			long latencyTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-msgUnmarshalled.getHeader().getTime());
+			callBack.methodToCallBack(msgUnmarshalled.getBody().getMessage(), msgUnmarshalled.getHeader().getTopic(),latencyTime);
+
+			//			latency[index] = latencyTime;
+//			System.out.println(latencyTime);
+//			index = index + 1;
+//			latencyTime = 0;
+//			if(index >= sampleSize){
+//				break;
+//			}
 		}
+		
+//		double mean = mean(latency);
+//		double desviation = desviation(mean, latency);
+//		System.out.println("mean = " + mean);
+//		System.out.println("stdev = " + desviation);
+
 	}
+	
+	public static double mean(long[] m){
+	    double sum = 0;
+	    for (int i = 0; i < m.length; i++) {
+	        sum += m[i];
+	        System.out.println(i);
+	    }
+	    return sum /(double)m.length;
+	}
+	
+	public static double desviation(double mean, long[] m ){
+		
+	    double sum = 0;
+	    double stdev = 0;
+	    for (int i = 0; i < m.length; i++) {
+	        sum = (double) (sum + Math.pow(Math.abs(m[i] - mean),2));   
+	        System.out.println(i);
+	    }
+		stdev = (double) Math.sqrt(sum);
+		stdev = stdev/(double)m.length;
+		return stdev;
+	}
+	
 
 	public int getPortListener() {
 		return portListener;
